@@ -1,7 +1,6 @@
 package controlador;
 
 import modelo.Coordenada;
-import modelo.Tablero;
 
 public class AccionadorController {
 	public void accionaCasilla(Coordenada coordenada, Tablero tablero) {

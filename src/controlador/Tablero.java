@@ -1,4 +1,4 @@
-package modelo;
+package controlador;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,6 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
+
+import modelo.Casilla;
+import modelo.Coordenada;
+import modelo.Densidad;
 
 public class Tablero {
 	private Casilla casillas[][];
@@ -246,5 +250,13 @@ public class Tablero {
 			}
 
 		}
+	}
+
+	public int getAncho() {
+		return casillas.length;
+	}
+
+	public int getAlto() {
+		return casillas[0].length;
 	}
 }

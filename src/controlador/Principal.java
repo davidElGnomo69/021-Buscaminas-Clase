@@ -2,10 +2,7 @@ package controlador;
 
 import java.awt.EventQueue;
 
-import vista.UI;
-
 public class Principal {
-
 	/**
 	 * Launch the application.
 	 */
@@ -21,5 +18,4 @@ public class Principal {
 			}
 		});
 	}
-
 }

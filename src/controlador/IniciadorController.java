@@ -1,7 +1,6 @@
 package controlador;
 
 import modelo.Densidad;
-import modelo.Tablero;
 
 public class IniciadorController {
 
