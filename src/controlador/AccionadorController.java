@@ -1,14 +1,15 @@
 package controlador;
 
+import modelo.Coordenada;
 import modelo.Tablero;
 
 public class AccionadorController {
-	public void accionaCasilla(int x, int y, Tablero tablero) {
-		if (tablero.comprobarAccion(x, y)) {
-			tablero.desvelarCasilla(x, y);
+	public void accionaCasilla(Coordenada coordenada, Tablero tablero) {
+		if (tablero.comprobarAccion(coordenada)) {
+			tablero.desvelarCasilla(coordenada);
 		}
 		else {
-			tablero.revelarCasilla(x, y);
+			tablero.revelarCasilla(coordenada);
 		}
 	}
 

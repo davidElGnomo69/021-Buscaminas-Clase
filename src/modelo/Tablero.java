@@ -47,7 +47,7 @@ public class Tablero {
 			if (casillaDesvelar.isMina()) {
 				mina = true;
 			} else {
-				if (casillaDesvelar.getAlrededor() == 0) {
+				if (casillaDesvelar.getMinasAlrededor() == 0) {
 					for (int i = -1; i < +2; i++) {
 						for (int j = -1; j < +2; j++) {
 							Coordenada recursiva = new Coordenada(coordenada.getX() + i, coordenada.getY() + j);
@@ -64,16 +64,14 @@ public class Tablero {
 	}
 
 	public boolean revelarCasilla(Coordenada coordenada) {
-		// necesito saber las casillas marcadas alrededor
 		int marcadas = getCasillasMarcadasAlrededor(coordenada);
-		if (!getCasilla(coordenada).isVelada() && marcadas == getCasilla(coordenada).getAlrededor()) {
-			desvelarCasilla(coordenada);
+		boolean retorno=false;
+		if (!getCasilla(coordenada).isVelada() && marcadas == getCasilla(coordenada).getMinasAlrededor()) {
+			retorno=desvelarCasilla(coordenada);
 		}
-		return false;
+		return retorno;
 	}
 
-	// Vamos a hacer que buscamos la mina e incrementamos en 1 a todas las casillas
-	// a su alrededor
 	private void sumarAlrededorMina(Coordenada coordenada) {
 		if (getCasilla(coordenada).isMina()) {
 			for (int i = coordenada.getX() - 1; i < coordenada.getX() + 2; i++) {
@@ -174,7 +172,7 @@ public class Tablero {
 			tablero.casillas[1][2].setMina(true);
 			for (int i = 0; i < xy.length; i++) {
 
-				tablero.casillas[xs[i]][xy[i]].setAlrededor(1);
+				tablero.casillas[xs[i]][xy[i]].setMinasAlrededor(1);
 			}
 			int x = 0, y = 0;
 			tablero.desvelarCasilla(new Coordenada(x, y));
@@ -199,7 +197,7 @@ public class Tablero {
 			tablero.casillas[1][2].setMina(true);
 			for (int i = 0; i < xy.length; i++) {
 
-				tablero.casillas[xs[i]][xy[i]].setAlrededor(1);
+				tablero.casillas[xs[i]][xy[i]].setMinasAlrededor(1);
 			}
 			int x = 1, y = 2;
 			assertTrue(tablero.desvelarCasilla(new Coordenada(x, y)));
@@ -243,7 +241,7 @@ public class Tablero {
 
 			for (int i = 0; i < resultados.length; i++) {
 				for (int j = 0; j < resultados[i].length; j++) {
-					assertEquals(resultados[i][j], tablero.casillas[i][j].getAlrededor());
+					assertEquals(resultados[i][j], tablero.casillas[i][j].getMinasAlrededor());
 				}
 			}
 

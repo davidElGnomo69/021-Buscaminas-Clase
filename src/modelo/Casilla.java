@@ -4,18 +4,18 @@ public class Casilla {
 	private boolean mina = false;
 	private boolean velada=true;
 	private boolean marcada=false;
-	private int alrededor=0;
+	private int minasAlrededor=0;
 	public boolean isMina() {
 		return mina;
 	}
 	public void setMina(boolean mina) {
 		this.mina = mina;
 	}
-	public int getAlrededor() {
-		return alrededor;
+	public int getMinasAlrededor() {
+		return minasAlrededor;
 	}
-	public void setAlrededor(int alrededor) {
-		this.alrededor = alrededor;
+	public void setMinasAlrededor(int alrededor) {
+		this.minasAlrededor = alrededor;
 	}
 	public boolean isVelada() {
 		return velada;
@@ -24,7 +24,7 @@ public class Casilla {
 		this.velada = velada;
 	}
 	public void incrementaUnaMinasAlrededor() {
-		alrededor++;
+		minasAlrededor++;
 	}
 	public boolean isMarcada() {
 		return marcada;
