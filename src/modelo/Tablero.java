@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Random;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 public class Tablero {
