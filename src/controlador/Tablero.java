@@ -16,7 +16,7 @@ public class Tablero {
 	private Casilla casillas[][];
 	private int minas = 0;
 
-	private Tablero() {
+	Tablero() {
 
 	}
 

@@ -38,5 +38,8 @@ public class Coordenada {
 		}
 		return retorno;
 	}
-	
+	@Override
+	public String toString() {
+		return x+":"+y;
+	}
 }

@@ -4,7 +4,7 @@ import modelo.Densidad;
 
 public class IniciadorController {
 
-	public void iniciarJuego(Tablero tablero,int filas,int columnas,Densidad densidad) {
-		tablero=new Tablero(filas, columnas, densidad);
+	public Tablero iniciarJuego(int filas,int columnas,Densidad densidad) {
+		return new Tablero(filas, columnas, densidad);
 	}
 }
