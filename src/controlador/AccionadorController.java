@@ -5,22 +5,16 @@ import java.awt.event.MouseAdapter;
 import modelo.Coordenada;
 
 public class AccionadorController extends MouseAdapter {
-	Tablero tablero;
 	
-	public AccionadorController(Tablero tablero) {
-		super();
-		this.tablero = tablero;
-	}
-
-	public boolean accionaCasilla(Coordenada coordenada) {
-		boolean retorno=false;
+	//Aqui desaparece el retorno boolean porque revelar casilla
+	//podia encontrar una bomba y el resultado se perdia en la recursividad
+	public void accionaCasilla(Tablero tablero,Coordenada coordenada) {
 		if (tablero.comprobarAccion(coordenada)) {
-			retorno=tablero.desvelarCasilla(coordenada);
+			tablero.desvelarCasilla(coordenada,false);
 		}
 		else {
-			retorno=tablero.revelarCasilla(coordenada);
+			tablero.revelarCasilla(coordenada);
 		}
-		return retorno;
 	}
 
 }

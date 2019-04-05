@@ -4,10 +4,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JButton;
-
-import modelo.Casilla;
 import modelo.Coordenada;
 import modelo.Densidad;
 import vista.UI;
@@ -26,44 +23,54 @@ public class ParaUI extends UI {
 		for (int i = 0; i < botonera2.length; i++) {
 			for (int j = 0; j < botonera2[i].length; j++) {
 				Coordenada coordenada = new Coordenada(i, j);
+				String letrero = "B";
 				if (!tablero.isCasillaVelada(coordenada)) {
-					String letrero = "M";
 					if (!tablero.isCasillaMina(coordenada)) {
 						letrero = String.valueOf(tablero.getMinasAlrededorCasilla(coordenada));
 					}
-					botonera2[i][j].setText(letrero);
-
+				} else {
+					letrero = " ";
+					if (tablero.isCasillaMarcada(coordenada)) {
+						 letrero = "M";
+					}
 				}
+				botonera2[i][j].setText(letrero);
 			}
 		}
 	}
 
+
 	public ParaUI() {
 		super();
 		// Estos valores pueden ser configurables
-		tablero = new IniciadorController().iniciarJuego(10, 10, Densidad.media);
-		accionadorController = new AccionadorController(tablero);
-		//Crear aqui el listener para el raton me permite ahorrarme el paso de parametros
-		//en el constructor del listener porque al estar aquí accede a las propiedades del paraui
-		//Si lo comparas con la version anterior hay menos lineas de conexion y dependencias en el
-		//diagrama de clases 
+		tablero = new IniciadorController().iniciarJuego(10, 10, Densidad.baja);
+		accionadorController = new AccionadorController();
+		// Crear aqui el listener para el raton me permite ahorrarme el paso de
+		// parametros
+		// en el constructor del listener porque al estar aquí accede a las propiedades
+		// del paraui
+		// Si lo comparas con la version anterior hay menos lineas de conexion y
+		// dependencias en el
+		// diagrama de clases
 		MouseAdapter mio = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (gameState) {
-					System.out.println("llego al listener");
+				//Esta es la forma de controlar el flujo del juego
+				//Si no hay una explosion se sigue jugando
+				if (!tablero.isExplosion()) {
+					Coordenada obtenCoordenada = obtenCoordenada(((JButton) e.getSource()).getName());
 					if (e.getButton() == 1) {
-						Coordenada obtenCoordenada = obtenCoordenada(((JButton) e.getSource()).getName());
-						System.out.println(obtenCoordenada.toString());
-						if (accionadorController.accionaCasilla(obtenCoordenada)) {
-							System.out.println("que es una mina");
-							gameState = false;
-						}
+						accionadorController.accionaCasilla(tablero, obtenCoordenada);
 					}
-					if (e.getButton() == 3)
-						System.out.println("derecho");
-					actualizaBotonera(getBotonera(), accionadorController.tablero);
-					getPanelBotones().revalidate();
+					if (e.getButton() == 3) {
+						System.out.println("BOTON DERECHO");
+						new MarcadorController().marcarCasilla(tablero, obtenCoordenada);
+					}
+					actualizaBotonera(getBotonera(), tablero);
+				}
+				else {
+					//Lo dejamos como ejercicio. Si hay una explosion podiamos tener un mensaje que lo diga
+					//en el ui y podíamos habilitar un boton en el panel derecho para reiniciar el juego
 				}
 			}
 		};
@@ -85,9 +92,7 @@ public class ParaUI extends UI {
 				getPanelBotones().add(jButton);
 			}
 		}
-		getPanelBotones().revalidate();
-
-		// Le a�adimos a la botonera los action listener
+		
 		for (int i = 0; i < getBotonera().length; i++) {
 			for (int j = 0; j < getBotonera()[i].length; j++) {
 				getBotonera()[i][j].setBackground(Color.LIGHT_GRAY);

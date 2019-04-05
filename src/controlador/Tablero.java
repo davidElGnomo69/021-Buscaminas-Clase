@@ -15,6 +15,7 @@ import modelo.Densidad;
 public class Tablero {
 	private Casilla casillas[][];
 	private int minas = 0;
+	private boolean explosion=false;
 
 	Tablero() {
 
@@ -43,20 +44,20 @@ public class Tablero {
 		return getCasilla(coordenada).isVelada();
 	}
 
-	public boolean desvelarCasilla(Coordenada coordenada) {
-		boolean mina = false;
+	public void desvelarCasilla(Coordenada coordenada,boolean revelar) {
 		Casilla casillaDesvelar = getCasilla(coordenada);
-		if (casillaDesvelar.isVelada() && !casillaDesvelar.isMarcada()) {
+//		if (casillaDesvelar.isVelada() && !casillaDesvelar.isMarcada()) {
+		if (!casillaDesvelar.isMarcada()) {
 			casillaDesvelar.setVelada(false);
 			if (casillaDesvelar.isMina()) {
-				mina = true;
+				explosion = true;
 			} else {
-				if (casillaDesvelar.getMinasAlrededor() == 0) {
+				if (casillaDesvelar.getMinasAlrededor() == 0||revelar) {
 					for (int i = -1; i < +2; i++) {
 						for (int j = -1; j < +2; j++) {
 							Coordenada recursiva = new Coordenada(coordenada.getX() + i, coordenada.getY() + j);
-							if (!coordenada.equals(recursiva) && isInToTablero(recursiva)) {
-								desvelarCasilla(recursiva);
+							if (!coordenada.equals(recursiva) && isInToTablero(recursiva)&&getCasilla(recursiva).isVelada()) {
+								desvelarCasilla(recursiva,false);
 							}
 
 						}
@@ -64,16 +65,13 @@ public class Tablero {
 				}
 			}
 		}
-		return mina;
 	}
 
-	public boolean revelarCasilla(Coordenada coordenada) {
+	public void revelarCasilla(Coordenada coordenada) {
 		int marcadas = getCasillasMarcadasAlrededor(coordenada);
-		boolean retorno=false;
 		if (!getCasilla(coordenada).isVelada() && marcadas == getCasilla(coordenada).getMinasAlrededor()) {
-			retorno=desvelarCasilla(coordenada);
+			desvelarCasilla(coordenada,true);
 		}
-		return retorno;
 	}
 
 	private void sumarAlrededorMina(Coordenada coordenada) {
@@ -179,11 +177,11 @@ public class Tablero {
 				tablero.casillas[xs[i]][xy[i]].setMinasAlrededor(1);
 			}
 			int x = 0, y = 0;
-			tablero.desvelarCasilla(new Coordenada(x, y));
+			tablero.desvelarCasilla(new Coordenada(x, y),false);
 			boolean desveladas[][] = { { false, false, true }, { false, false, true }, { false, false, true } };
 			for (int i = 0; i < desveladas.length; i++) {
 				for (int j = 0; j < desveladas[i].length; j++) {
-//					System.out.println("en coordenada " + i + ":" + j);
+					 System.out.println("en coordenada " + i + ":" + j);
 					assertEquals(desveladas[i][j], tablero.casillas[i][j].isVelada());
 				}
 			}
@@ -204,9 +202,12 @@ public class Tablero {
 				tablero.casillas[xs[i]][xy[i]].setMinasAlrededor(1);
 			}
 			int x = 1, y = 2;
-			assertTrue(tablero.desvelarCasilla(new Coordenada(x, y)));
-			x = 0; y = 1;
-			assertFalse(tablero.desvelarCasilla(new Coordenada(x, y)));
+			tablero.desvelarCasilla(new Coordenada(x, y),false);
+			assertTrue(tablero.explosion);
+//			x = 0;
+//			y = 1;
+//			tablero.desvelarCasilla(new Coordenada(x, y),false);
+//			assertFalse(tablero.explosion);
 		}
 
 		@Test
@@ -270,5 +271,22 @@ public class Tablero {
 
 	public int getMinasAlrededorCasilla(Coordenada coordenada) {
 		return getCasilla(coordenada).getMinasAlrededor();
+	}
+
+	public boolean marcarCasilla(Coordenada coordenada) {
+		boolean retorno=false;
+		if (isCasillaVelada(coordenada)) {
+			getCasilla(coordenada).setMarcada(!getCasilla(coordenada).isMarcada());
+			retorno=true;
+		}
+		return retorno;
+	}
+
+	public boolean isCasillaMarcada(Coordenada coordenada) {
+		return getCasilla(coordenada).isMarcada();
+	}
+
+	public boolean isExplosion() {
+		return explosion;
 	}
 }
