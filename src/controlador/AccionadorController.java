@@ -12,13 +12,15 @@ public class AccionadorController extends MouseAdapter {
 		this.tablero = tablero;
 	}
 
-	public void accionaCasilla(Coordenada coordenada) {
+	public boolean accionaCasilla(Coordenada coordenada) {
+		boolean retorno=false;
 		if (tablero.comprobarAccion(coordenada)) {
-			tablero.desvelarCasilla(coordenada);
+			retorno=tablero.desvelarCasilla(coordenada);
 		}
 		else {
-			tablero.revelarCasilla(coordenada);
+			retorno=tablero.revelarCasilla(coordenada);
 		}
+		return retorno;
 	}
 
 }

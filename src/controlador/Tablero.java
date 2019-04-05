@@ -259,4 +259,16 @@ public class Tablero {
 	public int getAlto() {
 		return casillas[0].length;
 	}
+
+	public boolean isCasillaVelada(Coordenada coordenada) {
+		return getCasilla(coordenada).isVelada();
+	}
+
+	public boolean isCasillaMina(Coordenada coordenada) {
+		return getCasilla(coordenada).isMina();
+	}
+
+	public int getMinasAlrededorCasilla(Coordenada coordenada) {
+		return getCasilla(coordenada).getMinasAlrededor();
+	}
 }
