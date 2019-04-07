@@ -2,6 +2,8 @@ package controlador;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
@@ -71,10 +73,20 @@ public class ParaUI extends UI {
 				else {
 					//Lo dejamos como ejercicio. Si hay una explosion podiamos tener un mensaje que lo diga
 					//en el ui y podíamos habilitar un boton en el panel derecho para reiniciar el juego
+					getLblMensajeFin().setText("HAS PERDIDO");
+					getBtnRestart().setEnabled(true);
 				}
 			}
 		};
 		crearBotonera(10, 10, mio);
+		getBtnRestart().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+				
+			}
+		});
 	}
 
 	// Como los botones se crean en tiempo de ejecución deben ponerse aqui a pesar
